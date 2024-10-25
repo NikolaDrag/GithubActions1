@@ -18,7 +18,7 @@ jobs:
 
   Linting:
     runs-on: ubuntu-latest
-    needs: [Build, Lint]
+    needs: [Build]
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v4
