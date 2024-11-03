@@ -41,6 +41,9 @@ jobs:
     needs: [Build]
     permissions:
       packages: write
+    env:  # Set DOCKER_REPO for the entire job
+      DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app # This is set to ensure it's in lowercase
+      docker_username: ${{ github.actor }} # Pass username to the script as well
     steps:
         - name: Download code
           uses: actions/download-artifact@v4
@@ -48,15 +51,11 @@ jobs:
             name: code
             path: .
         - name: build docker
-          env:
-            DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app # Override DOCKER_REPO to ensure lowercase
           run: |
             # Override in the shell session
             export DOCKER_REPO=${DOCKER_REPO}
             bash ci/build-docker.sh
         - name: push docker
-          env:
-            DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app # Override DOCKER_REPO to ensure lowercase
           run: |
             # Override in the shell session
             export DOCKER_REPO=${DOCKER_REPO}
