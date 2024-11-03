@@ -48,6 +48,16 @@ jobs:
             name: code
             path: .
         - name: build docker
-          run: bash ci/build-docker.sh
+          env:
+            DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app # Override DOCKER_REPO to ensure lowercase
+          run: |
+            # Override in the shell session
+            export DOCKER_REPO=${DOCKER_REPO}
+            bash ci/build-docker.sh
         - name: push docker
-          run: bash ci/push-docker.sh
+          env:
+            DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app # Override DOCKER_REPO to ensure lowercase
+          run: |
+            # Override in the shell session
+            export DOCKER_REPO=${DOCKER_REPO}
+            bash ci/push-docker.sh
