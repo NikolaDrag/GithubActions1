@@ -50,13 +50,11 @@ jobs:
           with:
             name: code
             path: .
+        - name: Prepare Docker Username
+          run: |
+            # Convert the docker_username to lowercase
+            echo "docker_username=${docker_username,,}" >> $GITHUB_ENV
         - name: build docker
-          run: |
-            # Override in the shell session
-            export DOCKER_REPO=${DOCKER_REPO}
-            bash ci/build-docker.sh
+          run: bash ci/build-docker.sh
         - name: push docker
-          run: |
-            # Override in the shell session
-            export DOCKER_REPO=${DOCKER_REPO}
-            bash ci/push-docker.sh
+          run: bash ci/push-docker.sh
