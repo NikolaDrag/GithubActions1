@@ -4,6 +4,7 @@ env: # Set the secret as an input
   docker_username: ${{ github.actor }} 
   docker_password: ${{ secrets.GITHUB_TOKEN }} #Nees to be set to be made available to the workflow
   GIT_COMMIT: ${{ github.sha }}
+  DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -40,8 +41,6 @@ jobs:
     needs: [Build]
     permissions:
       packages: write
-    env:
-      DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app
     steps:
         - name: Download code
           uses: actions/download-artifact@v4
