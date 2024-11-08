@@ -14,6 +14,26 @@ env: # Set the secret as an input
   GIT_COMMIT: ${{ github.sha }}
   DOCKER_REPO: ghcr.io/nikoladrag/micronaut-app
 jobs:
+  Sonar_Cloud:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sonarCloudAction
+        uses: sonarsource/sonarcloud-github-action@master
+    env:
+          DEFAULT_BRANCH: main
+          SONAR_TOKEN: ${{ secrets.SONAR_CLOUD }}
+          DISABLE_ERRORS: true
+  Snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+      - run: npm install -g snyk
+      - run: snyk test
+    env:
+          DEFAULT_BRANCH: main
+          SNYK_TOKEN: ${{ secrets.SNYK }}
+          DISABLE_ERRORS: true
+      
   Build:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
